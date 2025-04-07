@@ -60,7 +60,11 @@ def render_set(name, iteration, suffix, args, views, voxel_model):
         'output_T': not args.eval_fps,
     }
 
-    eps_time = time.time()
+    if args.eval_fps:
+        # Warmup
+        voxel_model.render(views[0], **tr_render_opt)
+
+    eps_time = time.perf_counter()
     psnr_lst = []
     for idx, view in enumerate(tqdm(views, desc="Rendering progress")):
         render_pkg = voxel_model.render(view, **tr_render_opt)
@@ -114,7 +118,7 @@ def render_set(name, iteration, suffix, args, views, voxel_model):
                 im_tensor2np(render_normal * 0.5 + 0.5)
             )
     torch.cuda.synchronize()
-    eps_time = time.time() - eps_time
+    eps_time = time.perf_counter() - eps_time
     peak_mem = torch.cuda.memory_stats()["allocated_bytes.all.peak"] / 1024 ** 3
     if args.eval_fps:
         print(f'Resolution:', tuple(render_pkg['color'].shape[-2:]))
