@@ -105,6 +105,8 @@ You can then navigate the trained scenes using a web browser. Another interactiv
 
 https://github.com/user-attachments/assets/44f1737a-c4d3-416d-bdf1-da8b3ecad57b
 
+WebGL is now supported. Thanks [samuelm2](https://github.com/samuelm2) for implementing the [svraster-webgl](https://github.com/samuelm2/svraster-webgl/) viewer.
+
 ### Meshing
 Remember to train with `--lambda_normal_dmean 0.001 --lambda_normal_dmed 0.001` to get a better geometry. Using sparse depth from COLMAP may also help `--lambda_sparse_depth 0.01`. After the scene optimization completed, run:
 ```bash
